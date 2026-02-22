@@ -2,6 +2,7 @@ const express = require('express');
 const userModel = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const emailService = require('../services/email.service');
 
 async function register(req, res) {
     try {
@@ -43,6 +44,7 @@ async function register(req, res) {
                 email: user.email
             }
         });
+        await emailService.sendRegistrationEmail(user.email, user.name);
 
     } catch (error) {
         console.error(error);
@@ -56,14 +58,14 @@ async function login(req, res) {
     try {
         const { email, password } = req.body;
 
-        
+
         if (!email || !password) {
             return res.status(400).json({
                 message: "Email and password are required"
             });
         }
 
-       
+
         const user = await userModel
             .findOne({ email })
             .select("+password");
@@ -87,7 +89,7 @@ async function login(req, res) {
             { expiresIn: process.env.JWT_EXPIRE }
         );
 
-       
+
         res.cookie("token", token);
 
         res.status(200).json({
