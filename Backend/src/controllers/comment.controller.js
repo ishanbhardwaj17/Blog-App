@@ -1,6 +1,5 @@
 const commentModel = require("../models/comment.model");
-const postModel = require("../models/post.model")
-
+const postModel = require("../models/post.model");
 
 async function createComment(req, res) {
     try {
@@ -9,23 +8,22 @@ async function createComment(req, res) {
 
         if (!content) {
             return res.status(400).json({
-                message: "Comment content is reqiured"
-            })
+                message: "Comment content is required"
+            });
         }
 
         const post = await postModel.findById(postId);
-
         if (!post) {
-            return res.status(401).json({
-                meassage: "This post does not exists";
-            })
+            return res.status(404).json({
+                message: "This post does not exist"
+            });
         }
 
         const comment = await commentModel.create({
             post: postId,
             user: req.user.id,
             content
-        })
+        });
 
         res.status(201).json({
             message: "Comment added successfully",
@@ -34,39 +32,45 @@ async function createComment(req, res) {
 
     } catch (error) {
         console.error(error);
-        return res.status(500).json({
+        res.status(500).json({
             message: "Server Error"
-        })
-
+        });
     }
 }
+
 async function getCommentsByPost(req, res) {
     try {
-        const postId = req.param.id;
+        const postId = req.params.postId;
 
-        const post = (await postModel.find({ post: postId }).populate("user", "name email")).sort({ createAt: -1 });
+        const comments = await commentModel
+            .find({ post: postId })
+            .populate("user", "name email")
+            .sort({ createdAt: -1 });
+
         res.status(200).json(comments);
 
     } catch (error) {
         console.error(error);
-        return res.status().json({
-            message: "internal Server error"
-        })
+        res.status(500).json({
+            message: "Server error"
+        });
     }
 }
+
 async function deleteComment(req, res) {
     try {
         const commentID = req.params.id;
         const comment = await commentModel.findById(commentID);
+
         if (!comment) {
             return res.status(404).json({
-                message: "No comment post"
-            })
+                message: "No comment found"
+            });
         }
 
-        if (comment.user.toString !== req.user.id) {
+        if (comment.user.toString() !== req.user.id) {
             return res.status(403).json({
-                message: "you are not allowed to delete this post"
+                message: "You are not allowed to delete this comment"
             });
         }
 
@@ -78,14 +82,55 @@ async function deleteComment(req, res) {
 
     } catch (error) {
         console.error(error);
-        return res.status().json({
-            message: "Inter server Error"
-        })
+        res.status(500).json({
+            message: "Internal server error"
+        });
+    }
+}
+
+async function editComment(req, res) {
+    try {
+        const commentId = req.params.commentId;
+        const { content } = req.body;
+
+        if (!content) {
+            return res.status(400).json({
+                message: "Comment content is required"
+            });
+        }
+
+        const comment = await commentModel.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({
+                message: "Comment not found"
+            });
+        }
+
+        if (comment.user.toString() !== req.user.id) {
+            return res.status(403).json({
+                message: "You are not allowed to edit this comment"
+            });
+        }
+
+        comment.content = content;
+        await comment.save();
+
+        res.status(200).json({
+            message: "Comment updated successfully",
+            comment
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Server error"
+        });
     }
 }
 
 module.exports = {
     createComment,
     getCommentsByPost,
-    deleteComment
-}
+    deleteComment,
+    editComment
+};
