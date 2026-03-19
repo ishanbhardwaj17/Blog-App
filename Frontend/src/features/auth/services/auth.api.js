@@ -8,14 +8,15 @@ const api = axios.create({
 async function register(name, email, password) {
     try {
         const response = await api.post("/register", {
-            username,
+            name, // send the name field expected by the backend
             email,
             password
         })
-        return await response.data;
+        return response.data;
     } catch (error) {
         console.error(error.response?.data || error.message);
         console.error(error);
+        throw error;
     }
 }
 
@@ -25,11 +26,12 @@ async function login(email, password) {
             email,
             password
         })
-        return await response.data;
+        return response.data;
 
     } catch (error) {
         console.error(error.response?.data || error.message);
         console.error(error);
+        throw error;
     }
 }
 async function logout() {
