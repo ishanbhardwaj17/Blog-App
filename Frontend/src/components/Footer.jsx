@@ -19,7 +19,7 @@ const Footer = ({
   const [isVisible, setIsVisible] = useState(false);
   const animationFrameRef = useRef(null);
 
-  // 👀 Detect if footer is visible
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

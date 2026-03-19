@@ -1,6 +1,10 @@
 import React from "react"
 import { ImageTrail } from "../../components/Bg1"
 import Footer from "../../components/Footer"
+import { BentoCard, BentoGrid, Feature } from "../../components/Features"
+import { SparklesIcon } from "lucide-react"
+import DisplayCards from "../../components/DisplayCards"
+import BlogPreview from "../../components/BlogPreview"
 
 const Home = () => {
   return (
@@ -42,43 +46,67 @@ const Home = () => {
       </section>
 
       {/* ================= FEATURES SECTION ================= */}
-      <section className="py-20 px-6 md:px-20 bg-black">
-        <h2 className="text-3xl md:text-4xl font-bold text-center">
-          Why Choose This Platform?
-        </h2>
+    <Feature>
+      <BentoGrid>
+        <BentoCard
+          name="Smart Organization"
+          description="Automatically organize your blogs with tags, categories, and smart suggestions."
+          Icon={SparklesIcon}
+          className="md:col-span-1"
+          background={
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img
+                src="/images/feature-1.png"
+                alt="Smart Organization"
+                className="h-full w-full object-cover opacity-20"
+              />
+            </div>
+          }
+          href="#"
+          cta="Learn more"
+        />
+        <BentoCard
+          name="Powerful Editor"
+          description="Write beautifully with a distraction-free editor and markdown support."
+          Icon={SparklesIcon}
+          className="md:col-span-1"
+          background={
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img
+                src="/images/feature-2.png"
+                alt="Powerful Editor"
+                className="h-full w-full object-cover opacity-20"
+              />
+            </div>
+          }
+          href="#"
+          cta="Learn more"
+        />
+        <BentoCard
+          name="Search Everything"
+          description="Instantly find your notes, blogs, and ideas with lightning-fast search."
+          Icon={SparklesIcon}
+          className="md:col-span-1"
+          background={
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img
+                src="/images/feature-3.png"
+                alt="Search Everything"
+                className="h-full w-full object-cover opacity-20"
+              />
+            </div>
+          }
+          href="#"
+          cta="Learn more"
+        />
+      </BentoGrid>
+    </Feature>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-8">
-
-          {/* Feature 1 */}
-          <div className="p-6 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition">
-            <h3 className="text-xl font-semibold">Smart Organization</h3>
-            <p className="text-gray-400 mt-2">
-              Automatically organize your blogs with tags, categories,
-              and smart suggestions.
-            </p>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="p-6 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition">
-            <h3 className="text-xl font-semibold">Powerful Editor</h3>
-            <p className="text-gray-400 mt-2">
-              Write beautifully with a distraction-free editor and markdown support.
-            </p>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="p-6 rounded-xl bg-zinc-900 hover:bg-zinc-800 transition">
-            <h3 className="text-xl font-semibold">Search Everything</h3>
-            <p className="text-gray-400 mt-2">
-              Instantly find your notes, blogs, and ideas with lightning-fast search.
-            </p>
-          </div>
-
-        </div>
-      </section>
+    {/* <DisplayCards/> */}
+    <BlogPreview/>  
 
       {/* ================= CTA SECTION ================= */}
-      <section className="py-20 px-6 text-center bg-gradient-to-b from-black to-zinc-900">
+      {/* <section className="py-20 px-6 text-center bg-gradient-to-b from-black to-zinc-900">
         <h2 className="text-3xl md:text-4xl font-bold">
           Start Building Your Knowledge Today
         </h2>
@@ -90,7 +118,7 @@ const Home = () => {
         <button className="mt-6 px-8 py-3 bg-white text-black rounded-lg font-semibold hover:scale-105 transition">
           Get Started Free
         </button>
-      </section>
+      </section> */}
 
       <Footer />
     </div>

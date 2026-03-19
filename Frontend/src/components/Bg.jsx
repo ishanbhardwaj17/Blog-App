@@ -24,8 +24,8 @@ export function Waves({
         set: false,
     })
     const pathsRef = useRef([])
-    const linesRef = useRef([])  // 替换any为Point[][]
-    const noiseRef = useRef(null)  // 替换any为具体的函数类型
+    const linesRef = useRef([])  
+    const noiseRef = useRef(null)  
     const rafRef = useRef(null)
     const boundingRef = useRef(null)
 
