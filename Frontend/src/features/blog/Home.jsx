@@ -1,5 +1,6 @@
 import React from "react"
 import { ImageTrail } from "../../components/Bg1"
+import Footer from "../../components/Footer"
 
 const Home = () => {
   return (
@@ -91,10 +92,7 @@ const Home = () => {
         </button>
       </section>
 
-      {/* ================= FOOTER ================= */}
-      <footer className="py-6 text-center text-gray-500 text-sm bg-black">
-        © {new Date().getFullYear()} Your Blog App. All rights reserved.
-      </footer>
+      <Footer />
     </div>
   )
 }
